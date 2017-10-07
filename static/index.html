@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alarm Clock</title>
+    <link href="../css/styles.css" type="text/css" rel="stylesheet"/>
+    <link href="../css/weather-icons.min.css" type="text/css" rel="stylesheet"/>
+    <script src="https://use.fontawesome.com/b5e38b4d20.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Audiowide|Maven+Pro|Orbitron|Questrial|Quicksand|Ubuntu" rel="stylesheet"/>
+  </head>
+  <body>
+    <div id="clock-container-outer">
+      <div id="clock-container-inner">
+        <h2 id="title">alarm clock</h2>
+        <h2 id="time"><span id="hour">12</span><span id="flicker">:</span><span id="minutes">46</span></h2>
+        <h3 id="tod">pm</h3>
+        <div id="alarm-controls">
+          <p class="alarm-button">
+            <i class="fa fa-bell-o fa-2x" aria-hidden="true"></i>
+            <span>1</span>
+          </p>
+          <p class="alarm-button">
+            <i class="fa fa-bell-o fa-2x" aria-hidden="true"></i>
+            <span>2</span>
+          </p>
+        </div>
+        <div class="alarm-screen" id="alarm-screen-one">
+          <p>
+            <input class="alarm-input" type="text" id="alarm-one-hour"/>:<input class="alarm-input" type="text" id="alarm-one-minutes"/>
+            <button class="set-alarm" id="set-button-one">Set</button>
+          </p>
+        </div>
+        <div class="alarm-screen" id="alarm-screen-two">
+          <p>
+            <input class="alarm-input" type="text" id="alarm-two-hour"/>:<input class="alarm-input" type="text" id="alarm-two-minutes"/>
+            <button class="set-alarm" id="set-button-two">Set</button>
+          </p>
+        </div>
+        <div id="bottom-controls">
+          <p title="Show weather" id="weather" class="controls">
+            <i class="wi wi-day-cloudy"></i>
+          </p>
+          <p class="controls">
+            <i class="fa fa-music fa-2x" aria-hidden="true"></i>
+          </p>
+          <div title="Change colors" class="controls" id="color"></div>
+        </div>
+        <div id="weather-screen">
+          <h1 id="temp"></h1>
+          <p id="conditions"></p>
+        </div>
+      </div>
+    </div>
+    <script type="text/javascript" src="../js/index.js"></script>
+  </body>
+</html>
