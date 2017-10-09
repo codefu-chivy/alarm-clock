@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alarm Clock</title>
+    <link href="./css/styles.css" type="text/css" rel="stylesheet"/>
+    <link href="./css/weather-icons.min.css" type="text/css" rel="stylesheet"/>
+    <script src="https://use.fontawesome.com/b5e38b4d20.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Audiowide|Maven+Pro|Orbitron|Questrial|Quicksand|Ubuntu" rel="stylesheet"/>
+  </head>
+  <body>
+    <div id="clock-container-outer">
+      <div id="clock-container-inner">
+        <button id="stop-alarm">Stop</button>
+        <h2 id="title">alarm clock</h2>
+        <div id="time-container">
+          <h2 id="time"><span id="hour">12</span><span id="flicker">:</span><span id="minutes">46</span></h2>
+          <h3 id="tod">PM</h3>
+        </div>
+        <div id="alarm-controls">
+          <p>
+            <i id="alarm-button-one" class="fa fa-bell-o fa-2x alarm-button" aria-hidden="true"></i>
+            <span>1</span>
+          </p>
+          <p>
+            <i id="alarm-button-two" class="fa fa-bell-o fa-2x alarm-button" aria-hidden="true"></i>
+            <span>2</span>
+          </p>
+        </div>
+        <div class="alarm-screen" id="alarm-screen-one">
+          <p>
+            <input class="alarm-input" type="text" id="alarm-one-hour"/>:<input class="alarm-input" type="text" id="alarm-one-minutes"/>
+            <input type="text" class="amPm"/> 
+            <button class="set-alarm" id="set-button-one">Set</button>
+          </p>
+        </div>
+        <div class="alarm-screen" id="alarm-screen-two">
+          <p>
+            <input class="alarm-input" type="text" id="alarm-two-hour"/>:<input class="alarm-input" type="text" id="alarm-two-minutes"/>
+            <input type="text" class="amPm"/> 
+            <button class="set-alarm" id="set-button-two">Set</button>
+          </p>
+        </div>
+        <div id="bottom-controls">
+          <p title="Show weather" id="weather" class="controls">
+            <i class="wi wi-day-cloudy"></i>
+          </p>
+          <p class="controls">
+            <i class="fa fa-music fa-2x" aria-hidden="true"></i>
+          </p>
+          <div title="Change colors" class="controls" id="color"></div>
+        </div>
+        <div id="weather-screen">
+          <h1 id="temp"></h1>
+          <p id="conditions"></p>
+        </div>
+      </div>
+    </div>
+    <audio id="audio" src="./media/audio/Loud_Alarm_Clock_Buzzer-Muk1984-493547174.mp3" type="audio/mp3"></audio>
+    <script type="text/javascript" src="./dist/bundle.js"></script>
+  </body>
+</html>
