@@ -1,0 +1,29 @@
+{
+  "name": "alarm-clock",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/codefu-chivy/alarm-clock.git"
+  },
+  "author": "Chival Trotman",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/codefu-chivy/alarm-clock/issues"
+  },
+  "homepage": "https://github.com/codefu-chivy/alarm-clock#readme",
+  "dependencies": {
+    "exports-loader": "^0.6.4",
+    "imports-loader": "^0.7.1",
+    "promise-polyfill": "^6.0.2",
+    "webpack": "^3.6.0",
+    "whatwg-fetch": "^2.0.3"
+  },
+  "devDependencies": {
+    "webpack": "^3.6.0"
+  }
+}
