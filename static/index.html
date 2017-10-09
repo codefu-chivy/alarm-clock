@@ -14,28 +14,33 @@
   <body>
     <div id="clock-container-outer">
       <div id="clock-container-inner">
+        <button id="stop-alarm">Stop</button>
         <h2 id="title">alarm clock</h2>
-        <h2 id="time"><span id="hour">12</span><span id="flicker">:</span><span id="minutes">46</span></h2>
-        <h3 id="tod">pm</h3>
+        <div id="time-container">
+          <h2 id="time"><span id="hour">12</span><span id="flicker">:</span><span id="minutes">46</span></h2>
+          <h3 id="tod">PM</h3>
+        </div>
         <div id="alarm-controls">
-          <p class="alarm-button">
-            <i class="fa fa-bell-o fa-2x" aria-hidden="true"></i>
+          <p>
+            <i id="alarm-button-one" class="fa fa-bell-o fa-2x alarm-button" aria-hidden="true"></i>
             <span>1</span>
           </p>
-          <p class="alarm-button">
-            <i class="fa fa-bell-o fa-2x" aria-hidden="true"></i>
+          <p>
+            <i id="alarm-button-two" class="fa fa-bell-o fa-2x alarm-button" aria-hidden="true"></i>
             <span>2</span>
           </p>
         </div>
         <div class="alarm-screen" id="alarm-screen-one">
           <p>
             <input class="alarm-input" type="text" id="alarm-one-hour"/>:<input class="alarm-input" type="text" id="alarm-one-minutes"/>
+            <input type="text" class="amPm"/> 
             <button class="set-alarm" id="set-button-one">Set</button>
           </p>
         </div>
         <div class="alarm-screen" id="alarm-screen-two">
           <p>
             <input class="alarm-input" type="text" id="alarm-two-hour"/>:<input class="alarm-input" type="text" id="alarm-two-minutes"/>
+            <input type="text" class="amPm"/> 
             <button class="set-alarm" id="set-button-two">Set</button>
           </p>
         </div>
@@ -54,6 +59,7 @@
         </div>
       </div>
     </div>
+    <audio id="audio" src="../media/audio/Loud_Alarm_Clock_Buzzer-Muk1984-493547174.mp3" type="audio/mp3"></audio>
     <script type="text/javascript" src="../js/index.js"></script>
   </body>
 </html>
