@@ -2,17 +2,28 @@
 var clock = {
     index: 0,
     showWeather: false,
-    current: null,
+    current: {
+        weather: null,
+        alarm: null
+    },
     flicker: false,
+    stopButton: stopButton = document.getElementById("stop-alarm"),
     setCurrentTime: function(val) {
         var hourEl = document.getElementById("hour"), 
         minutesEl = document.getElementById("minutes"),
         colon = document.getElementById("flicker"),
+        tod = document.getElementById("tod"),
+        alarmAudio = document.getElementById("audio"),
+        self = this,
         curTime,
         hour,
-        minute;
+        minute,
+        amPm;
         setInterval(function() {
+            var alarmOne = localStorage.getItem("alarmOne") ? JSON.parse(localStorage.getItem("alarmOne")) : null,
+            alarmTwo = localStorage.getItem("alarmTwo") ? JSON.parse(localStorage.getItem("alarmTwo")) : null;
             curTime = new Date().toLocaleTimeString();
+            amPm = curTime.slice(curTime.length - 2, curTime.length);
             if (curTime.length === 10) {
                 hour = "0" + curTime.slice(0, 1);
                 minute = curTime.slice(2, 4);
@@ -23,14 +34,24 @@ var clock = {
             }
             minutesEl.innerHTML = minute;
             hourEl.innerHTML = hour;
+            tod.innerHTML = amPm;
             if (val) {
                 colon.style.visibility = "hidden";
             }
             else {
                 colon.style.visibility = "visible";
             }
-            if (localStorage.getItem("alarmOne")) {
-
+            if (alarmOne) {
+                if ((Number(hour) === Number(alarmOne.hour)) && (Number(minute) === Number(alarmOne.minute)) && (amPm.toLowerCase() === alarmOne.amPm)) {
+                    alarmAudio.play();
+                    self.stopButton.style.display = "initial";
+                }
+            }
+            if (alarmTwo) {
+                if ((Number(hour) === Number(alarmTwo.hour)) && (Number(minute) === Number(alarmTwo.minute)) && (amPm.toLowerCase() === alarmTwo.amPm)) {
+                    alarmAudio.play();
+                    self.stopButton.style.display = "initial";
+                }
             }
             val = !val;
         }, 1000);
@@ -87,17 +108,28 @@ var clock = {
             }
         });
     },
-    setAlarmOne: function(hour, minutes, amPm) {
-        var alarmOne = {
+    setAlarm: function(hour, minutes, amPm, number) {
+        var alarm = {
             hour: hour,
             minute: minutes,
             amPm: amPm
         };
-        localStorage.setItem("alarmOne", JSON.stringify(alarmOne));
+        if (localStorage.getItem("alarm" + number)) {
+            localStorage.removeItem("alarm" + number);
+        }
+        localStorage.setItem("alarm" + number, JSON.stringify(alarm));
     }
-}
+};
 
-clock.setCurrentTime(clock.flicker);
+(function() {
+    if (localStorage.getItem("alarmOne")) {
+        localStorage.removeItem("alarmOne");
+    }
+    else if (localStorage.getItem("alarmTwo")) {
+        localStorage.removeItem("alarmTwo");
+    }
+    clock.setCurrentTime(clock.flicker);
+})();
 
 //ALARM EVENTS
 
@@ -108,11 +140,11 @@ document.querySelector("#weather").addEventListener("click", function(e) {
     if (clock.showWeather) {
         weatherScreen.style.display = "initial";
         e.target.style.color = "red";
-        clock.current = weatherScreen;
+        clock.current.weather = weatherScreen;
         clock.getWeather();
     }
     else {
-        clock.current.style.display = "none";
+        clock.current.weather.style.display = "none";
         e.target.style.color = "inherit";
     }
 });
@@ -121,5 +153,90 @@ document.querySelector("#weather").addEventListener("click", function(e) {
 document.querySelector("#color").addEventListener("click", function(e) {
     var colorSelect = e.target, index = clock.index;
     clock.changeColors();
+});
 
+//Show Alarm Options When Icons Pressed
+document.getElementsByClassName("alarm-button")[0].addEventListener("click", showOptions);
+document.getElementsByClassName("alarm-button")[1].addEventListener("click", showOptions);
+
+function showOptions(e) {
+    var timeEl = document.getElementById("time-container"), alarmEl;
+    timeEl.style.display = "none";
+    if (e.target.getAttribute("id") === "alarm-button-one") {
+        alarmEl = document.getElementById("alarm-screen-one");
+        document.getElementById("alarm-screen-two").style.display = "none";
+    }
+    else {
+        alarmEl = document.getElementById("alarm-screen-two");
+        document.getElementById("alarm-screen-one").style.display = "none";
+    }
+    clock.current.alarm = alarmEl;
+    alarmEl.style.display = "initial";
+}
+
+
+//Don't allow more than 2 digits on alarm inputs
+for (var i = 0; i < document.getElementsByClassName("alarm-input").length; i++) {
+    document.getElementsByClassName("alarm-input")[i].addEventListener("keypress", onlyTwoDigits);
+}
+
+function onlyTwoDigits(e) {
+    var el = e.target;
+    if (el.value.length >= 2 || Number(e.key) !== Number(e.key)) {
+        e.preventDefault();
+    }
+}
+
+//Save Alarm Times
+document.getElementsByClassName("set-alarm")[0].addEventListener("click", saveTime);
+document.getElementsByClassName("set-alarm")[1].addEventListener("click", saveTime);
+
+function saveTime(e) {
+    var alarmButtonEl = e.target,
+    timeCont = document.getElementById("time-container"),
+    amPm,
+    hour,
+    minute,
+    number;
+    if (alarmButtonEl.getAttribute("id") === "set-button-one") {
+        hour = document.getElementById("alarm-one-hour").value;
+        minute = document.getElementById("alarm-one-minutes").value;
+        amPm = document.getElementsByClassName("amPm")[0].value;
+        number = "One";
+    }
+    else {
+        hour = document.getElementById("alarm-two-hour").value;
+        minute = document.getElementById("alarm-two-minutes").value;
+        amPm = document.getElementsByClassName("amPm")[1].value;
+        number = "Two";
+    }
+    if (!amPm || (amPm !== "pm" && amPm !== "am")) {
+        alert("You must select either am or pm");
+        return;
+    }
+    if (Number(hour) > 12 || Number(minute) > 59 || minute.length < 2) {
+        alert("Invalid Time");
+        return;
+    }
+    clock.setAlarm(hour, minute, amPm, number);
+    clock.current.alarm.style.display = "none";
+    timeCont.style.display = "initial";
+}
+
+//Stop Alarm
+document.querySelector("#stop-alarm").addEventListener("click", function() {
+    var sound = document.getElementById("audio"),
+    alarmSoundOne,
+    alarmSoundTwo;
+    sound.pause();
+    sound.currentTime = 0;
+    alarmSoundOne = localStorage.getItem("alarmOne");
+    alarmSoundTwo = localStorage.getItem("alarmTwo");
+    clock.stopButton.style.display = "none";
+    if (alarmSoundOne) {
+        localStorage.removeItem("alarmOne");
+    }
+    else if (alarmSoundTwo) {
+        localStorage.removeItem("alarmTwo");
+    }
 });
