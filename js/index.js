@@ -221,6 +221,7 @@ function saveTime(e) {
     clock.setAlarm(hour, minute, amPm, number);
     clock.current.alarm.style.display = "none";
     timeCont.style.display = "initial";
+    console.log(timeCont)
 }
 
 //Stop Alarm
